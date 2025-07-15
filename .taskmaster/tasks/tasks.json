@@ -688,7 +688,7 @@
         "dependencies": [
           14
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -718,8 +718,8 @@
               1,
               2
             ],
-            "details": "使用npm publish发布到npm仓库，同时通过GitHub Actions或CLI工具创建版本化Release，附加变更日志和构建产物",
-            "status": "in-progress",
+            "details": "使用npm publish发布到npm仓库，同时通过GitHub Actions或CLI工具创建版本化Release，附加变更日志和构建产物\n<info added on 2025-07-15T14:12:16.348Z>\n由于原包名被占用，更新为scoped包名@zhucl1006/capacitor-line-login。\n成功发布到npm，包名：@zhucl1006/capacitor-line-login@1.1.0。\n已推送代码到GitHub主分支，并创建并推送v1.1.0标签到GitHub。\n发布包含所有必要文件：源代码、构建文件、文档、平台支持文件。\n包大小：25.5 kB，解压后156.4 kB。\n发布状态：成功发布，npm同步可能需要几分钟时间。\n</info added on 2025-07-15T14:12:16.348Z>",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -727,7 +727,7 @@
     ],
     "metadata": {
       "created": "2025-07-15T09:56:14.962Z",
-      "updated": "2025-07-15T14:02:36.495Z",
+      "updated": "2025-07-15T14:12:30.845Z",
       "description": "Tasks for master context"
     }
   }
