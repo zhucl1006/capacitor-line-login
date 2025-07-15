@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-line-login",
+  "name": "@zhucl1006/capacitor-line-login",
   "version": "1.1.0",
   "description": "Capacitor plugin for Line Login integration with support for Android, iOS, and Web platforms",
   "main": "dist/plugin.cjs.js",
