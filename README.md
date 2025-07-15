@@ -133,11 +133,14 @@ Echo方法（测试用）
 
 Line Login 配置接口
 
-| Prop                   | Type                 | Description              |
-| ---------------------- | -------------------- | ------------------------ |
-| **`channelId`**        | <code>string</code>  | Line Channel ID          |
-| **`universalLinkURL`** | <code>string</code>  | Universal Link URL (iOS) |
-| **`debug`**            | <code>boolean</code> | 调试模式                     |
+| Prop                   | Type                  | Description              |
+| ---------------------- | --------------------- | ------------------------ |
+| **`channelId`**        | <code>string</code>   | Line Channel ID          |
+| **`universalLinkURL`** | <code>string</code>   | Universal Link URL (iOS) |
+| **`redirectUri`**      | <code>string</code>   | 重定向 URI (Web)            |
+| **`scope`**            | <code>string[]</code> | 权限范围                     |
+| **`botPrompt`**        | <code>string</code>   | Bot 提示信息                 |
+| **`debug`**            | <code>boolean</code>  | 调试模式                     |
 
 
 #### LoginResult

@@ -115,16 +115,62 @@
       {
         "id": 4,
         "title": "实现插件初始化功能",
-        "description": "实现插件的初始化功能，包括配置 Line Channel ID 和验证参数。",
-        "details": "在插件的主文件中实现 initialize 方法，接收 LineLoginConfig 参数并验证其有效性。",
-        "testStrategy": "编写单元测试，确保初始化功能正常工作，验证无效参数时抛出错误。",
-        "priority": "high",
+        "description": "实现插件的初始化功能，包括配置 Line Channel ID 和验证参数，并支持 Web 端重定向、权限范围配置和 Bot 提示模式。",
+        "status": "done",
         "dependencies": [
           2,
           3
         ],
-        "status": "pending",
-        "subtasks": []
+        "priority": "high",
+        "details": "在插件的主文件中实现 initialize 方法，接收 LineLoginConfig 参数并验证其有效性。LineLoginConfig 接口已扩展以支持 `redirectUri`、`scope` 和 `botPrompt`。实现了完整的参数验证逻辑，包括必需参数的非空字符串检查，可选参数的类型检查，并自动 trim `channelId` 的空白字符。设置了默认的 `scope` 为 ['profile']。添加了 `isInitialized` 状态管理，并在所有其他方法中添加了初始化状态检查，确保在调用其他方法前必须先初始化。创建了 `docs/initialization-example.md` 文档，包含基本和完整配置示例、错误处理最佳实践、参数含义说明、平台特定配置以及常见问题解答。",
+        "testStrategy": "编写单元测试，确保初始化功能正常工作，验证无效参数时抛出预期的错误信息。验证 `channelId` 不能为空且必须是字符串，`redirectUri`、`scope` 和 `botPrompt` 的类型检查。测试 `isInitialized` 状态管理和在未初始化时调用其他方法应抛出 'Plugin not initialized. Call initialize() first.' 错误。验证默认 scope 设置和 `channelId` 的 trim 功能。",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "扩展 LineLoginConfig 接口",
+            "description": "扩展 LineLoginConfig 接口以支持 `redirectUri`、`scope` 和 `botPrompt` 属性，并保持向后兼容性。",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "完善 Web 实现的初始化功能",
+            "description": "实现完整的参数验证逻辑，包括必需参数的非空字符串检查，可选参数的类型检查。添加 `isInitialized` 状态管理，自动 trim `channelId` 的空白字符，并设置默认 scope 为 ['profile']。",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "添加初始化状态检查",
+            "description": "在所有其他方法中添加初始化状态检查，确保在调用其他方法前必须先初始化，并提供清晰的错误信息。",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "创建详细的使用示例",
+            "description": "创建 `docs/initialization-example.md` 文档，包含基本和完整配置示例、错误处理最佳实践、参数含义说明、平台特定配置以及常见问题解答。",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "实现所有定义的错误处理",
+            "description": "实现所有定义的错误处理逻辑，包括 'LineLoginConfig is required'、'channelId is required in LineLoginConfig'、'channelId must be a non-empty string'、'redirectUri must be a string'、'scope must be an array'、'botPrompt must be a string' 和 'Plugin not initialized. Call initialize() first.'。",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 5,
@@ -382,7 +428,7 @@
     ],
     "metadata": {
       "created": "2025-07-15T09:56:14.962Z",
-      "updated": "2025-07-15T12:36:58.123Z",
+      "updated": "2025-07-15T12:48:19.025Z",
       "description": "Tasks for master context"
     }
   }

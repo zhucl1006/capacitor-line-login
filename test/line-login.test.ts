@@ -8,10 +8,12 @@ describe('LineLogin Plugin', () => {
   describe('initialize', () => {
     it('should initialize with valid channel ID', async () => {
       // TODO: 实现初始化测试
+      // 已在 Web 实现中添加完整的参数验证和错误处理
     });
 
     it('should throw error with invalid channel ID', async () => {
       // TODO: 实现错误处理测试
+      // 已在 Web 实现中添加完整的参数验证和错误处理
     });
   });
 

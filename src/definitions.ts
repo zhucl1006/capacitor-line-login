@@ -58,6 +58,21 @@ export interface LineLoginConfig {
   universalLinkURL?: string;
 
   /**
+   * 重定向 URI (Web)
+   */
+  redirectUri?: string;
+
+  /**
+   * 权限范围
+   */
+  scope?: string[];
+
+  /**
+   * Bot 提示信息
+   */
+  botPrompt?: string;
+
+  /**
    * 调试模式
    */
   debug?: boolean;
