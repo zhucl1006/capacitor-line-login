@@ -182,7 +182,7 @@
         "dependencies": [
           4
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -190,7 +190,7 @@
             "description": "在插件中实现原生（Android/iOS）的登录逻辑，调用 Line SDK 进行登录。",
             "dependencies": [],
             "details": "根据 Line SDK 的原生文档，实现调用原生方法进行用户登录的逻辑。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -199,7 +199,7 @@
             "description": "在插件中实现 Web 端的登录逻辑，处理 Line 登录的 OAuth 流程。",
             "dependencies": [],
             "details": "实现 Web 端的登录跳转和回调处理，确保用户可以通过浏览器完成登录。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -211,7 +211,7 @@
               2
             ],
             "details": "封装 Line SDK 的调用，根据平台差异选择合适的登录方式，并处理登录过程中的错误。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -221,8 +221,8 @@
             "dependencies": [
               3
             ],
-            "details": "从 Line SDK 的响应中解析出 access_token 和用户 profile 信息，并格式化为 LoginResult 接口的格式。",
-            "status": "pending",
+            "details": "从 Line SDK 的响应中解析出 access_token 和用户 profile 信息，并格式化为 LoginResult 接口的格式。\n<info added on 2025-07-15T13:07:58.783Z>\n已完成对 Android、iOS 和 Web 平台的 Line SDK 登录结果解析和用户信息提取。\n\n**Android平台** (LineLoginPlugin.java):\n- `handleLoginResult` 方法解析 `LineLoginResult`。\n- 提取 `accessToken`：`result.getLineCredential().getAccessToken().getTokenString()`。\n- 提取用户信息：`result.getLineProfile()` 包含 userId、displayName、statusMessage、pictureUrl。\n- 返回格式化的 JSObject，包含 success、accessToken 和 profile 字段。\n\n**iOS平台** (LineLogin.swift):\n- `login` 方法处理 `LoginManager.shared.login` 的结果。\n- 提取 `accessToken`：`loginResult.accessToken.value`。\n- 提取用户信息：`loginResult.userProfile` 包含 userID、displayName、statusMessage、pictureURL。\n- 返回格式化的字典，包含 success、accessToken 和 profile 字段。\n\n**Web平台** (web.ts):\n- `handleLoginCallback` 方法处理 OAuth 回调。\n- 通过 `exchangeCodeForToken` 获取访问令牌。\n- 通过 `fetchUserProfile` 获取用户信息。\n- 返回符合 `LoginResult` 接口的对象，包含 accessToken、expiresIn、scope、tokenType、userProfile 等字段。\n</info added on 2025-07-15T13:07:58.783Z>",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -428,7 +428,7 @@
     ],
     "metadata": {
       "created": "2025-07-15T09:56:14.962Z",
-      "updated": "2025-07-15T12:48:19.025Z",
+      "updated": "2025-07-15T13:08:08.549Z",
       "description": "Tasks for master context"
     }
   }
