@@ -675,7 +675,7 @@
         "dependencies": [
           13
         ],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -689,12 +689,45 @@
           14
         ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "进行版本管理",
+            "description": "使用语义化版本控制规范管理插件版本号",
+            "dependencies": [],
+            "details": "根据语义化版本规范（SemVer）更新package.json中的版本号，确保主版本号、次版本号和修订号的变更符合功能变更程度\n<info added on 2025-07-15T14:00:37.680Z>\n版本管理任务完成：\n- package.json 中的版本已从 0.0.1 更新为 1.0.0。\n- 产品描述已更新，更加专业和详细。\n- 已验证 CapacitorLineLogin.podspec 会自动从 package.json 读取版本号。\n- 遵循语义化版本控制规范，1.0.0 表示第一个稳定版本。\n</info added on 2025-07-15T14:00:37.680Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "构建并打包插件",
+            "description": "编译源代码并生成可发布的插件包",
+            "dependencies": [
+              1
+            ],
+            "details": "运行构建命令（如npm run build）生成生产环境优化的代码包，确保包含所有必要资源和类型声明文件\n<info added on 2025-07-15T14:02:19.804Z>\n构建任务已完成。\n修复了TypeScript配置问题，添加了skipLibCheck选项。\n成功运行npm run build命令，生成了生产环境优化的代码包。\n构建包含了所有必要的资源和类型声明文件，可以发布到npm。\n具体生成的文件包括：\n- dist/plugin.js 和 dist/plugin.cjs.js（主要入口文件）\n- dist/esm/目录包含所有ESM模块文件\n- dist/docs.json（API文档）\n- 所有类型声明文件（.d.ts）\n- Source maps文件\n</info added on 2025-07-15T14:02:19.804Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "发布到npm和GitHub Releases",
+            "description": "将打包后的插件发布到npm仓库并创建GitHub Releases",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "使用npm publish发布到npm仓库，同时通过GitHub Actions或CLI工具创建版本化Release，附加变更日志和构建产物",
+            "status": "in-progress",
+            "testStrategy": ""
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-07-15T09:56:14.962Z",
-      "updated": "2025-07-15T13:25:57.062Z",
+      "updated": "2025-07-15T14:02:36.495Z",
       "description": "Tasks for master context"
     }
   }

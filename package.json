@@ -1,7 +1,7 @@
 {
   "name": "capacitor-line-login",
-  "version": "0.0.1",
-  "description": "login plug in",
+  "version": "1.0.0",
+  "description": "Capacitor plugin for Line Login integration with support for Android, iOS, and Web platforms",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
