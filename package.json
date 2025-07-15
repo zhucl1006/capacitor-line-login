@@ -1,6 +1,6 @@
 {
-  "name": "@zhucl1006/capacitor-line-login",
-  "version": "1.1.0",
+  "name": "aile-capacitor-line-login",
+  "version": "1.2.0",
   "description": "Capacitor plugin for Line Login integration with support for Android, iOS, and Web platforms",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
