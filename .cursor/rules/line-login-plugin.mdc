@@ -1,0 +1,93 @@
+---
+alwaysApply: true
+---
+# Line Login Capacitor Plugin 开发指南
+
+## 项目结构
+
+这是一个 Capacitor 插件项目，用于集成 Line Login 功能。项目遵循标准的 Capacitor 插件结构：
+
+### 核心文件
+- [src/definitions.ts](mdc:src/definitions.ts) - 插件接口定义
+- [src/index.ts](mdc:src/index.ts) - 插件入口点，注册插件
+- [src/web.ts](mdc:src/web.ts) - Web 平台实现
+- [package.json](mdc:package.json) - 项目配置和依赖
+
+### 平台实现
+- **iOS**: [ios/Sources/LineLoginPlugin/](mdc:ios/Sources/LineLoginPlugin/) - Swift 实现
+  - [LineLoginPlugin.swift](mdc:ios/Sources/LineLoginPlugin/LineLoginPlugin.swift) - 插件桥接层
+  - [LineLogin.swift](mdc:ios/Sources/LineLoginPlugin/LineLogin.swift) - 核心实现
+- **Android**: [android/src/main/java/com/aile/plugins/linelogin/](mdc:android/src/main/java/com/aile/plugins/linelogin/) - Java 实现
+  - [LineLoginPlugin.java](mdc:android/src/main/java/com/aile/plugins/linelogin/LineLoginPlugin.java) - 插件桥接层
+  - [LineLogin.java](mdc:android/src/main/java/com/aile/plugins/linelogin/LineLogin.java) - 核心实现
+
+### 配置文件
+- [Package.swift](mdc:Package.swift) - Swift Package Manager 配置
+- [CapacitorLineLogin.podspec](mdc:CapacitorLineLogin.podspec) - CocoaPods 配置
+- [android/build.gradle](mdc:android/build.gradle) - Android 构建配置
+
+## 开发规范
+
+### 1. 接口定义
+- 所有插件方法都必须在 [src/definitions.ts](mdc:src/definitions.ts) 中定义
+- 使用 TypeScript 接口确保类型安全
+- 方法应该返回 Promise，支持异步操作
+
+### 2. 多平台实现
+- **Web**: 在 [src/web.ts](mdc:src/web.ts) 中实现 WebPlugin
+- **iOS**: 在 Swift 文件中实现，使用 `@objc` 装饰器
+- **Android**: 在 Java 文件中实现，使用 `@PluginMethod` 注解
+
+### 3. 插件方法规范
+- 使用 `@PluginMethod` (Android) 或 `@objc` (iOS) 注解
+- 方法名在所有平台保持一致
+- 参数通过 `PluginCall` 对象传递
+- 使用 `call.resolve()` 返回结果，`call.reject()` 返回错误
+
+### 4. 构建和测试
+- 使用 `npm run build` 构建项目
+- 使用 `npm run verify` 验证所有平台
+- 使用 `npm run lint` 检查代码质量
+- 示例应用在 [example-app/](mdc:example-app/) 目录
+
+## Line Login 特定功能
+
+### 当前状态
+- 项目目前只有基础的 `echo` 方法作为示例
+- 需要实现完整的 Line Login 功能
+
+### 需要实现的功能
+1. **初始化** - 配置 Line Login SDK
+2. **登录** - 启动 Line 登录流程
+3. **获取用户信息** - 获取用户个人资料
+4. **登出** - 清除登录状态
+5. **刷新令牌** - 刷新访问令牌
+
+### 实现步骤
+1. 更新 [src/definitions.ts](mdc:src/definitions.ts) 添加 Line Login 方法
+2. 在各平台实现具体功能：
+   - iOS: 集成 Line SDK for iOS
+   - Android: 集成 Line SDK for Android
+   - Web: 使用 Line Login Web API
+3. 更新示例应用测试功能
+
+## 代码风格
+- 使用 TypeScript 进行类型检查
+- 遵循 ESLint 和 Prettier 配置
+- Swift 代码使用 SwiftLint 检查
+- Java 代码遵循 Android 开发规范
+
+## 发布流程
+1. 更新版本号在 [package.json](mdc:package.json)
+2. 运行 `npm run build` 构建
+3. 运行 `npm run verify` 验证
+4. 运行 `npm publish` 发布到 npm
+
+## 调试技巧
+- 使用 [example-app/](mdc:example-app/) 进行本地测试
+- 检查 [example-app/src/js/example.js](mdc:example-app/src/js/example.js) 了解使用方式
+- 使用 `npx cap run ios` 或 `npx cap run android` 在设备上测试
+description:
+globs:
+alwaysApply: false
+---

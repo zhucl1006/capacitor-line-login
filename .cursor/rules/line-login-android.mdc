@@ -1,0 +1,344 @@
+# Line Login Android 开发规范
+## SDK参考
+https://developers.line.biz/en/docs/line-login-sdks/android-sdk/integrate-line-login/
+
+## 项目结构
+
+### 核心文件
+- [android/src/main/java/com/aile/plugins/linelogin/LineLoginPlugin.java](mdc:android/src/main/java/com/aile/plugins/linelogin/LineLoginPlugin.java) - Capacitor 插件桥接层
+- [android/src/main/java/com/aile/plugins/linelogin/LineLogin.java](mdc:android/src/main/java/com/aile/plugins/linelogin/LineLogin.java) - 核心业务逻辑实现
+
+### 构建配置
+- [android/build.gradle](mdc:android/build.gradle) - 模块构建配置
+- [android/src/main/AndroidManifest.xml](mdc:android/src/main/AndroidManifest.xml) - 权限和组件声明
+
+## 插件桥接层规范
+
+### 1. 插件类结构
+```java
+@CapacitorPlugin(name = "LineLogin")
+public class LineLoginPlugin extends Plugin {
+    private LineLogin implementation = new LineLogin();
+    
+    @PluginMethod
+    public void initialize(PluginCall call) {
+        // 实现初始化逻辑
+    }
+    
+    @PluginMethod
+    public void login(PluginCall call) {
+        // 实现登录逻辑
+    }
+    
+    @PluginMethod
+    public void getUserProfile(PluginCall call) {
+        // 获取用户信息
+    }
+    
+    @PluginMethod
+    public void logout(PluginCall call) {
+        // 登出逻辑
+    }
+    
+    @PluginMethod
+    public void refreshToken(PluginCall call) {
+        // 刷新令牌
+    }
+    
+    @PluginMethod
+    public void isLoggedIn(PluginCall call) {
+        // 检查登录状态
+    }
+}
+```
+
+### 2. 参数处理
+```java
+@PluginMethod
+public void login(PluginCall call) {
+    String channelId = call.getString("channelId");
+    JSArray scopes = call.getArray("scopes");
+    Boolean onlyWebLogin = call.getBoolean("onlyWebLogin", false);
+    
+    if (channelId == null) {
+        call.reject("channelId is required");
+        return;
+    }
+    
+    // 调用核心实现
+    implementation.login(channelId, scopes, onlyWebLogin, new LoginCallback() {
+        @Override
+        public void onSuccess(LoginResult result) {
+            JSObject ret = new JSObject();
+            ret.put("accessToken", result.getAccessToken());
+            ret.put("refreshToken", result.getRefreshToken());
+            ret.put("expiresIn", result.getExpiresIn());
+            ret.put("scope", result.getScope());
+            ret.put("tokenType", result.getTokenType());
+            call.resolve(ret);
+        }
+        
+        @Override
+        public void onError(String error) {
+            call.reject(error);
+        }
+    });
+}
+```
+
+### 3. 错误处理
+```java
+private void handleError(PluginCall call, String errorCode, String message) {
+    JSObject error = new JSObject();
+    error.put("code", errorCode);
+    error.put("message", message);
+    call.reject(message, error);
+}
+```
+
+## 核心实现规范
+
+### 1. 业务逻辑类
+```java
+public class LineLogin {
+    private Context context;
+    private String channelId;
+    private boolean isInitialized = false;
+    
+    public void initialize(Context context, String channelId) {
+        this.context = context;
+        this.channelId = channelId;
+        
+        // 初始化 Line SDK
+        LineApiClientBuilder apiClientBuilder = new LineApiClientBuilder(context, channelId);
+        LineApiClient lineApiClient = apiClientBuilder.build();
+        
+        this.isInitialized = true;
+    }
+    
+    public void login(String channelId, JSArray scopes, boolean onlyWebLogin, LoginCallback callback) {
+        if (!isInitialized) {
+            callback.onError("Plugin not initialized");
+            return;
+        }
+        
+        // 实现登录逻辑
+        // 使用 Line SDK 进行登录
+    }
+}
+```
+
+### 2. 回调接口
+```java
+public interface LoginCallback {
+    void onSuccess(LoginResult result);
+    void onError(String error);
+}
+
+public interface UserProfileCallback {
+    void onSuccess(UserProfile profile);
+    void onError(String error);
+}
+```
+
+### 3. 数据模型
+```java
+public class LoginResult {
+    private String accessToken;
+    private String refreshToken;
+    private long expiresIn;
+    private String scope;
+    private String tokenType;
+    private String idToken;
+    
+    // 构造函数、getter 和 setter
+}
+
+public class UserProfile {
+    private String userId;
+    private String displayName;
+    private String pictureUrl;
+    private String statusMessage;
+    
+    // 构造函数、getter 和 setter
+}
+```
+
+## Line SDK 集成
+
+### 1. 依赖配置
+在 [android/build.gradle](mdc:android/build.gradle) 中添加：
+
+```gradle
+dependencies {
+    implementation 'com.linecorp:linesdk:5.8.1'
+    // 其他依赖
+}
+```
+
+### 2. 权限配置
+在 AndroidManifest.xml 中添加：
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+### 3. Activity 配置
+```xml
+<activity
+    android:name="com.linecorp.linesdk.auth.LineAuthenticationActivity"
+    android:exported="true"
+    android:launchMode="singleTop"
+    android:theme="@android:style/Theme.Translucent.NoTitleBar">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="line3rdp.{your_channel_id}" />
+    </intent-filter>
+</activity>
+```
+
+## 最佳实践
+
+### 1. 线程管理
+```java
+@PluginMethod
+public void login(PluginCall call) {
+    // 在后台线程执行耗时操作
+    new Thread(() -> {
+        try {
+            // 执行登录逻辑
+            LoginResult result = implementation.performLogin();
+            
+            // 在主线程返回结果
+            getActivity().runOnUiThread(() -> {
+                JSObject ret = createLoginResult(result);
+                call.resolve(ret);
+            });
+        } catch (Exception e) {
+            getActivity().runOnUiThread(() -> {
+                call.reject("Login failed: " + e.getMessage());
+            });
+        }
+    }).start();
+}
+```
+
+### 2. 生命周期管理
+```java
+@Override
+protected void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
+    super.handleOnActivityResult(requestCode, resultCode, data);
+    
+    if (requestCode == LINE_LOGIN_REQUEST_CODE) {
+        LineLoginResult result = LineLoginApi.getLoginResultFromIntent(data);
+        // 处理登录结果
+    }
+}
+
+@Override
+protected void handleOnDestroy() {
+    super.handleOnDestroy();
+    // 清理资源
+    if (implementation != null) {
+        implementation.cleanup();
+    }
+}
+```
+
+### 3. 错误处理
+```java
+private void handleLineApiError(LineApiError error, PluginCall call) {
+    String errorCode;
+    String message = error.getMessage();
+    
+    switch (error.getCode()) {
+        case CANCEL:
+            errorCode = "LOGIN_CANCELLED";
+            break;
+        case NETWORK_ERROR:
+            errorCode = "NETWORK_ERROR";
+            break;
+        case SERVER_ERROR:
+            errorCode = "SERVER_ERROR";
+            break;
+        default:
+            errorCode = "UNKNOWN_ERROR";
+            break;
+    }
+    
+    handleError(call, errorCode, message);
+}
+```
+
+## 测试
+
+### 1. 单元测试
+```java
+@Test
+public void testLogin() {
+    LineLogin lineLogin = new LineLogin();
+    lineLogin.initialize(mockContext, "test-channel-id");
+    
+    // 测试登录逻辑
+    assertNotNull(lineLogin);
+    assertTrue(lineLogin.isInitialized());
+}
+```
+
+### 2. 集成测试
+```java
+@Test
+public void testPluginIntegration() {
+    LineLoginPlugin plugin = new LineLoginPlugin();
+    PluginCall mockCall = mock(PluginCall.class);
+    
+    when(mockCall.getString("channelId")).thenReturn("test-channel-id");
+    
+    plugin.initialize(mockCall);
+    
+    verify(mockCall).resolve(any(JSObject.class));
+}
+```
+
+## 调试技巧
+
+### 1. 日志记录
+```java
+import com.getcapacitor.Logger;
+
+public class LineLogin {
+    private static final String TAG = "LineLogin";
+    
+    public void login(String channelId, LoginCallback callback) {
+        Logger.info(TAG, "Starting login with channelId: " + channelId);
+        
+        try {
+            // 登录逻辑
+            Logger.debug(TAG, "Login successful");
+        } catch (Exception e) {
+            Logger.error(TAG, "Login failed", e);
+            callback.onError(e.getMessage());
+        }
+    }
+}
+```
+
+### 2. 调试配置
+```java
+public class LineLogin {
+    private static final boolean DEBUG = BuildConfig.DEBUG;
+    
+    private void debugLog(String message) {
+        if (DEBUG) {
+            Log.d(TAG, message);
+        }
+    }
+}
+```
+description:
+globs:
+alwaysApply: false
+---

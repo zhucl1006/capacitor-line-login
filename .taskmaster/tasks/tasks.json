@@ -1,0 +1,336 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "设置项目仓库",
+        "description": "创建并初始化项目的 Git 仓库，设置基本的文件结构和 README 文件。",
+        "details": "使用 Git 创建一个新的仓库，并初始化基本的文件结构，包括 src、test、docs 等目录。",
+        "testStrategy": "检查仓库是否成功创建，确保 README 文件存在，并且基本文件结构完整。",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "创建并初始化 Git 仓库",
+            "description": "创建一个新的 Git 仓库并进行初始化。",
+            "dependencies": [],
+            "details": "使用 `git init` 命令在项目根目录创建新的 Git 仓库。\n<info added on 2025-07-15T10:06:54.023Z>\nGit仓库已存在且配置正确，包括main分支和已连接的origin/main远程仓库。仓库状态正常，有未提交的更改。此子任务已完成。\n</info added on 2025-07-15T10:06:54.023Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "设置基础文件结构和 README",
+            "description": "创建项目的基本文件结构（src, test, docs）和 README 文件。",
+            "dependencies": [
+              1
+            ],
+            "details": "在项目根目录创建 `src`、`test` 和 `docs` 目录，并在根目录创建 `README.md` 文件。\n<info added on 2025-07-15T10:08:13.893Z>\n已完成工作：\n1. 检查现有结构：确认项目已有 `src/` 目录和 `README.md` 文件\n2. 创建缺失目录：创建 `test/` 和 `docs/` 目录\n3. 添加基础文件：创建 `test/line-login.test.ts` 和 `docs/README.md`\n\n项目结构现状：\n- `src/` - 源代码目录 (已存在)\n- `test/` - 测试目录 (新创建)\n- `docs/` - 文档目录 (新创建)\n- `README.md` - 项目说明文件 (已存在)\n- `android/`, `ios/`, `example-app/` - 平台目录 (已存在)\n\n注意：测试文件中的 linter 错误是正常的，因为还没有安装测试框架依赖，这将在后续任务中解决。\n\n项目的基础文件结构已经完整建立。\n</info added on 2025-07-15T10:08:13.893Z>",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "定义 TypeScript 接口",
+        "description": "根据 PRD 中的接口设计，定义 TypeScript 接口以支持插件功能。",
+        "details": "在 src 目录下创建一个 types.ts 文件，定义 LineLoginPlugin、LineLoginConfig、LoginOptions、LoginResult 和 UserProfile 接口。",
+        "testStrategy": "编写单元测试，确保接口定义符合预期，使用 TypeScript 编译器检查类型。",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "初始化 Capacitor 插件",
+        "description": "创建 Capacitor 插件的基本结构，包括 Android 和 iOS 的平台支持。",
+        "details": "使用 Capacitor CLI 创建插件，确保支持 Android 和 iOS 平台。",
+        "testStrategy": "验证插件结构是否正确，确保 Android 和 iOS 目录存在。",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "实现插件初始化功能",
+        "description": "实现插件的初始化功能，包括配置 Line Channel ID 和验证参数。",
+        "details": "在插件的主文件中实现 initialize 方法，接收 LineLoginConfig 参数并验证其有效性。",
+        "testStrategy": "编写单元测试，确保初始化功能正常工作，验证无效参数时抛出错误。",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "实现用户登录功能",
+        "description": "实现用户登录功能，支持原生和 Web 登录，返回访问令牌和用户信息。",
+        "details": "在插件中实现 login 方法，调用 Line SDK 进行登录，并处理返回的访问令牌和用户信息。",
+        "testStrategy": "编写集成测试，确保登录流程正常，验证返回的访问令牌和用户信息的正确性。",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "实现原生登录逻辑",
+            "description": "在插件中实现原生（Android/iOS）的登录逻辑，调用 Line SDK 进行登录。",
+            "dependencies": [],
+            "details": "根据 Line SDK 的原生文档，实现调用原生方法进行用户登录的逻辑。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "实现 Web 登录逻辑",
+            "description": "在插件中实现 Web 端的登录逻辑，处理 Line 登录的 OAuth 流程。",
+            "dependencies": [],
+            "details": "实现 Web 端的登录跳转和回调处理，确保用户可以通过浏览器完成登录。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "处理 Line SDK 的登录调用",
+            "description": "统一处理原生和 Web 登录调用，并与 Line SDK 进行交互。",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "封装 Line SDK 的调用，根据平台差异选择合适的登录方式，并处理登录过程中的错误。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "解析并返回访问令牌和用户信息",
+            "description": "解析 Line SDK 返回的登录结果，提取访问令牌和用户信息，并按接口定义返回。",
+            "dependencies": [
+              3
+            ],
+            "details": "从 Line SDK 的响应中解析出 access_token 和用户 profile 信息，并格式化为 LoginResult 接口的格式。",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "实现获取用户信息功能",
+        "description": "实现获取用户个人资料的功能，包括用户 ID、显示名称等。",
+        "details": "在插件中实现 getUserProfile 方法，调用 Line SDK 获取用户信息，并支持缓存机制。",
+        "testStrategy": "编写单元测试，确保用户信息获取功能正常，验证缓存机制的有效性。",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "实现登录状态管理功能",
+        "description": "实现检查当前登录状态和验证令牌有效性的功能。",
+        "details": "在插件中实现 isLoggedIn 方法，检查当前登录状态，并验证访问令牌的有效性。",
+        "testStrategy": "编写单元测试，确保登录状态管理功能正常，验证不同状态下的返回结果。",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "实现用户登出功能",
+        "description": "实现用户登出功能，清除本地存储的令牌和用户会话数据。",
+        "details": "在插件中实现 logout 方法，清除本地存储的令牌，并撤销服务器端授权。",
+        "testStrategy": "编写单元测试，确保登出功能正常，验证登出后状态的变化。",
+        "priority": "medium",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "实现令牌管理功能",
+        "description": "实现访问令牌的刷新和过期处理功能。",
+        "details": "在插件中实现 refreshToken 方法，处理令牌过期和刷新逻辑。",
+        "testStrategy": "编写单元测试，确保令牌管理功能正常，验证过期令牌的处理。",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "集成 Android SDK",
+        "description": "集成 Line SDK for Android，处理 Activity 生命周期和 Intent。",
+        "details": "在 Android 目录中集成 Line SDK for Android 5.8.1+，实现必要的 Activity 生命周期处理。",
+        "testStrategy": "编写集成测试，确保 Android 平台的登录流程正常，验证 Intent 处理的正确性。",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "添加 Line SDK for Android 依赖",
+            "description": "在 Android 项目的 build.gradle 文件中添加 Line SDK for Android 的依赖。",
+            "dependencies": [],
+            "details": "在 app/build.gradle 文件中添加 implementation 'com.linecorp.linesdk:linesdk:5.8.1'。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "实现 Activity 生命周期处理",
+            "description": "在 Android 项目中实现处理 Line SDK 回调所需的 Activity 生命周期方法。",
+            "dependencies": [
+              1
+            ],
+            "details": "实现 onActivityResult 方法，用于接收 Line SDK 的登录回调结果。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "配置 AndroidManifest.xml",
+            "description": "配置 AndroidManifest.xml 文件以支持 Line SDK 的正常运行。",
+            "dependencies": [
+              2
+            ],
+            "details": "在 AndroidManifest.xml 文件中添加必要的 <activity> 和 <meta-data> 标签，包括 LINE 登录所需的 scheme。",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "集成 iOS SDK",
+        "description": "集成 Line SDK for iOS，支持 URL Scheme 和 Universal Links。",
+        "details": "在 iOS 目录中集成 Line SDK for iOS 5.8.0+，实现 URL Scheme 和 Universal Links 的处理。",
+        "testStrategy": "编写集成测试，确保 iOS 平台的登录流程正常，验证 URL Scheme 的处理。",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "添加 Line SDK for iOS 依赖",
+            "description": "在 iOS 项目中添加 Line SDK for iOS 的依赖，并确保版本符合要求。",
+            "dependencies": [],
+            "details": "使用 CocoaPods 或 Swift Package Manager 将 Line SDK for iOS 5.8.0+ 添加到 iOS 项目的 Podfile 或 Package.swift 文件中。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "实现 URL Scheme 配置",
+            "description": "配置 iOS 项目以正确处理 Line SDK 的 URL Scheme。",
+            "dependencies": [
+              1
+            ],
+            "details": "在 Xcode 项目的 Info.plist 文件中添加 URL Types，并配置 Line SDK 所需的 URL Scheme。同时，在 AppDelegate 中实现 `application(_:open:options:)` 方法来处理回调。",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "实现 Universal Links 配置",
+            "description": "配置 iOS 项目以支持 Line SDK 的 Universal Links。",
+            "dependencies": [
+              2
+            ],
+            "details": "在 Xcode 项目中启用 Associated Domains，并在 `apple-app-site-association` 文件中正确配置 Universal Links 的路径。同时，在 AppDelegate 中实现 `application(_:continue:restorationHandler:)` 方法来处理回调。",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "实现 Web 登录功能",
+        "description": "实现 Web 登录功能，使用 Line Login Web API 支持 OAuth 2.0 流程。",
+        "details": "在插件中实现 Web 登录功能，处理跨域请求并支持 OAuth 2.0 流程。",
+        "testStrategy": "编写集成测试，确保 Web 登录功能正常，验证跨域请求的处理。",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "编写文档",
+        "description": "编写完整的 API 文档和平台特定配置指南。",
+        "details": "使用工具自动生成 API 文档，并手动编写平台特定的配置指南和故障排除文档。",
+        "testStrategy": "检查文档的完整性和准确性，确保所有功能都有相应的文档支持。",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5,
+          10,
+          11,
+          12
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "实现自动化测试流程",
+        "description": "设置自动化测试流程，确保单元测试和集成测试的覆盖率。",
+        "details": "使用 CI/CD 工具配置自动化测试流程，确保每次提交都运行测试。",
+        "testStrategy": "验证自动化测试流程是否正常工作，确保测试覆盖率达到 > 80%。",
+        "priority": "medium",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "发布准备",
+        "description": "准备发布插件，包括版本管理和发布到 npm 和 GitHub Releases。",
+        "details": "使用语义化版本控制管理版本，准备发布到 npm 和 GitHub Releases。",
+        "testStrategy": "验证发布流程是否正常，确保插件可以成功发布并可被使用。",
+        "priority": "high",
+        "dependencies": [
+          14
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-15T09:56:14.962Z",
+      "updated": "2025-07-15T10:08:23.769Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

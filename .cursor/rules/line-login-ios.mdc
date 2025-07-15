@@ -1,0 +1,467 @@
+# Line Login iOS 开发规范
+## SDK参考
+https://developers.line.biz/en/docs/line-login-sdks/ios-sdk/swift/integrate-line-login/
+## 项目结构
+
+### 核心文件
+- [ios/Sources/LineLoginPlugin/LineLoginPlugin.swift](mdc:ios/Sources/LineLoginPlugin/LineLoginPlugin.swift) - Capacitor 插件桥接层
+- [ios/Sources/LineLoginPlugin/LineLogin.swift](mdc:ios/Sources/LineLoginPlugin/LineLogin.swift) - 核心业务逻辑实现
+
+### 配置文件
+- [Package.swift](mdc:Package.swift) - Swift Package Manager 配置
+- [CapacitorLineLogin.podspec](mdc:CapacitorLineLogin.podspec) - CocoaPods 配置
+
+## 插件桥接层规范
+
+### 1. 插件类结构
+```swift
+@objc(LineLoginPlugin)
+public class LineLoginPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "LineLoginPlugin"
+    public let jsName = "LineLogin"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "initialize", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "login", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getUserProfile", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logout", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "refreshToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isLoggedIn", returnType: CAPPluginReturnPromise)
+    ]
+    
+    private let implementation = LineLogin()
+    
+    @objc func initialize(_ call: CAPPluginCall) {
+        // 实现初始化逻辑
+    }
+    
+    @objc func login(_ call: CAPPluginCall) {
+        // 实现登录逻辑
+    }
+    
+    @objc func getUserProfile(_ call: CAPPluginCall) {
+        // 获取用户信息
+    }
+    
+    @objc func logout(_ call: CAPPluginCall) {
+        // 登出逻辑
+    }
+    
+    @objc func refreshToken(_ call: CAPPluginCall) {
+        // 刷新令牌
+    }
+    
+    @objc func isLoggedIn(_ call: CAPPluginCall) {
+        // 检查登录状态
+    }
+}
+```
+
+### 2. 参数处理
+```swift
+@objc func login(_ call: CAPPluginCall) {
+    guard let channelId = call.getString("channelId") else {
+        call.reject("channelId is required")
+        return
+    }
+    
+    let scopes = call.getArray("scopes", String.self) ?? []
+    let onlyWebLogin = call.getBool("onlyWebLogin") ?? false
+    
+    implementation.login(
+        channelId: channelId,
+        scopes: scopes,
+        onlyWebLogin: onlyWebLogin
+    ) { [weak self] result in
+        switch result {
+        case .success(let loginResult):
+            let response: [String: Any] = [
+                "accessToken": loginResult.accessToken,
+                "refreshToken": loginResult.refreshToken ?? "",
+                "expiresIn": loginResult.expiresIn,
+                "scope": loginResult.scope,
+                "tokenType": loginResult.tokenType,
+                "idToken": loginResult.idToken ?? ""
+            ]
+            call.resolve(response)
+            
+        case .failure(let error):
+            self?.handleError(call: call, error: error)
+        }
+    }
+}
+```
+
+### 3. 错误处理
+```swift
+private func handleError(call: CAPPluginCall, error: LineLoginError) {
+    let errorData: [String: Any] = [
+        "code": error.code,
+        "message": error.message
+    ]
+    call.reject(error.message, nil, errorData)
+}
+```
+
+## 核心实现规范
+
+### 1. 业务逻辑类
+```swift
+@objc public class LineLogin: NSObject {
+    private var channelId: String?
+    private var isInitialized = false
+    
+    @objc public func initialize(channelId: String, completion: @escaping (Result<Void, LineLoginError>) -> Void) {
+        self.channelId = channelId
+        
+        // 初始化 Line SDK
+        guard let channelId = self.channelId else {
+            completion(.failure(LineLoginError.invalidChannelId))
+            return
+        }
+        
+        // 配置 Line SDK
+        LoginManager.shared.setup(channelID: channelId, universalLinkURL: nil)
+        
+        self.isInitialized = true
+        completion(.success(()))
+    }
+    
+    @objc public func login(
+        channelId: String,
+        scopes: [String],
+        onlyWebLogin: Bool,
+        completion: @escaping (Result<LoginResult, LineLoginError>) -> Void
+    ) {
+        guard isInitialized else {
+            completion(.failure(LineLoginError.notInitialized))
+            return
+        }
+        
+        // 实现登录逻辑
+        // 使用 Line SDK 进行登录
+    }
+}
+```
+
+### 2. 数据模型
+```swift
+public struct LoginResult {
+    public let accessToken: String
+    public let refreshToken: String?
+    public let expiresIn: TimeInterval
+    public let scope: String
+    public let tokenType: String
+    public let idToken: String?
+    
+    public init(accessToken: String, refreshToken: String?, expiresIn: TimeInterval, scope: String, tokenType: String, idToken: String?) {
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.expiresIn = expiresIn
+        self.scope = scope
+        self.tokenType = tokenType
+        self.idToken = idToken
+    }
+}
+
+public struct UserProfile {
+    public let userId: String
+    public let displayName: String
+    public let pictureUrl: String?
+    public let statusMessage: String?
+    
+    public init(userId: String, displayName: String, pictureUrl: String?, statusMessage: String?) {
+        self.userId = userId
+        self.displayName = displayName
+        self.pictureUrl = pictureUrl
+        self.statusMessage = statusMessage
+    }
+}
+```
+
+### 3. 错误类型
+```swift
+public enum LineLoginError: Error {
+    case notInitialized
+    case invalidChannelId
+    case loginCancelled
+    case loginFailed(String)
+    case networkError
+    case invalidToken
+    case userNotLoggedIn
+    case permissionDenied
+    
+    public var code: String {
+        switch self {
+        case .notInitialized:
+            return "NOT_INITIALIZED"
+        case .invalidChannelId:
+            return "INVALID_CHANNEL_ID"
+        case .loginCancelled:
+            return "LOGIN_CANCELLED"
+        case .loginFailed:
+            return "LOGIN_FAILED"
+        case .networkError:
+            return "NETWORK_ERROR"
+        case .invalidToken:
+            return "INVALID_TOKEN"
+        case .userNotLoggedIn:
+            return "USER_NOT_LOGGED_IN"
+        case .permissionDenied:
+            return "PERMISSION_DENIED"
+        }
+    }
+    
+    public var message: String {
+        switch self {
+        case .notInitialized:
+            return "Plugin not initialized"
+        case .invalidChannelId:
+            return "Invalid channel ID"
+        case .loginCancelled:
+            return "Login cancelled by user"
+        case .loginFailed(let reason):
+            return "Login failed: \(reason)"
+        case .networkError:
+            return "Network error"
+        case .invalidToken:
+            return "Invalid token"
+        case .userNotLoggedIn:
+            return "User not logged in"
+        case .permissionDenied:
+            return "Permission denied"
+        }
+    }
+}
+```
+
+## Line SDK 集成
+
+### 1. 依赖配置
+在 [Package.swift](mdc:Package.swift) 中添加：
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/line/line-sdk-ios-swift.git", from: "5.8.0"),
+    .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0")
+],
+targets: [
+    .target(
+        name: "LineLoginPlugin",
+        dependencies: [
+            .product(name: "Capacitor", package: "capacitor-swift-pm"),
+            .product(name: "Cordova", package: "capacitor-swift-pm"),
+            .product(name: "LineSDK", package: "line-sdk-ios-swift")
+        ],
+        path: "ios/Sources/LineLoginPlugin"
+    )
+]
+```
+
+### 2. Info.plist 配置
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>line3rdp.{your_channel_id}</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>line3rdp.{your_channel_id}</string>
+        </array>
+    </dict>
+</array>
+
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>lineauth2</string>
+</array>
+```
+
+### 3. 导入 Line SDK
+```swift
+import LineSDK
+import Capacitor
+```
+
+## 最佳实践
+
+### 1. 异步操作处理
+```swift
+@objc func login(_ call: CAPPluginCall) {
+    DispatchQueue.main.async { [weak self] in
+        guard let self = self else { return }
+        
+        // 执行登录逻辑
+        self.implementation.login(channelId: channelId, scopes: scopes, onlyWebLogin: onlyWebLogin) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let loginResult):
+                    call.resolve(self.createLoginResponse(loginResult))
+                case .failure(let error):
+                    self.handleError(call: call, error: error)
+                }
+            }
+        }
+    }
+}
+```
+
+### 2. 内存管理
+```swift
+public class LineLogin: NSObject {
+    private var loginManager: LoginManager?
+    
+    deinit {
+        cleanup()
+    }
+    
+    private func cleanup() {
+        loginManager = nil
+        isInitialized = false
+    }
+}
+```
+
+### 3. URL Scheme 处理
+```swift
+@objc func handleOpenURL(_ call: CAPPluginCall) {
+    guard let url = call.getString("url"),
+          let urlObject = URL(string: url) else {
+        call.reject("Invalid URL")
+        return
+    }
+    
+    if LoginManager.shared.application(.shared, open: urlObject) {
+        call.resolve()
+    } else {
+        call.reject("Failed to handle URL")
+    }
+}
+```
+
+### 4. 生命周期管理
+```swift
+public override func load() {
+    super.load()
+    // 插件加载时的初始化
+}
+
+public override func removeAllListeners() {
+    super.removeAllListeners()
+    // 清理监听器
+}
+```
+
+## 测试
+
+### 1. 单元测试
+```swift
+import XCTest
+@testable import LineLoginPlugin
+
+class LineLoginTests: XCTestCase {
+    var lineLogin: LineLogin!
+    
+    override func setUp() {
+        super.setUp()
+        lineLogin = LineLogin()
+    }
+    
+    override func tearDown() {
+        lineLogin = nil
+        super.tearDown()
+    }
+    
+    func testInitialize() {
+        let expectation = XCTestExpectation(description: "Initialize")
+        
+        lineLogin.initialize(channelId: "test-channel-id") { result in
+            switch result {
+            case .success:
+                XCTAssertTrue(self.lineLogin.isInitialized)
+                expectation.fulfill()
+            case .failure(let error):
+                XCTFail("Initialization failed: \(error)")
+            }
+        }
+        
+        wait(for: [expectation], timeout: 5.0)
+    }
+}
+```
+
+### 2. Mock 实现
+```swift
+class MockLineLogin: LineLogin {
+    var shouldSucceed = true
+    
+    override func login(channelId: String, scopes: [String], onlyWebLogin: Bool, completion: @escaping (Result<LoginResult, LineLoginError>) -> Void) {
+        if shouldSucceed {
+            let result = LoginResult(
+                accessToken: "mock-token",
+                refreshToken: "mock-refresh-token",
+                expiresIn: 3600,
+                scope: "profile",
+                tokenType: "Bearer",
+                idToken: nil
+            )
+            completion(.success(result))
+        } else {
+            completion(.failure(.loginFailed("Mock failure")))
+        }
+    }
+}
+```
+
+## 调试技巧
+
+### 1. 日志记录
+```swift
+import os.log
+
+public class LineLogin: NSObject {
+    private let logger = OSLog(subsystem: "com.aile.plugins.linelogin", category: "LineLogin")
+    
+    public func login(channelId: String, scopes: [String], onlyWebLogin: Bool, completion: @escaping (Result<LoginResult, LineLoginError>) -> Void) {
+        os_log("Starting login with channelId: %@", log: logger, type: .info, channelId)
+        
+        // 登录逻辑
+        
+        os_log("Login completed successfully", log: logger, type: .debug)
+    }
+}
+```
+
+### 2. 调试配置
+```swift
+public class LineLogin: NSObject {
+    private let isDebugMode = true
+    
+    private func debugLog(_ message: String) {
+        if isDebugMode {
+            print("[LineLogin] \(message)")
+        }
+    }
+}
+```
+
+### 3. 错误追踪
+```swift
+private func handleLineSDKError(_ error: Error) -> LineLoginError {
+    if let lineError = error as? LineSDKError {
+        switch lineError {
+        case .authorizationFailed(.userCancelled):
+            return .loginCancelled
+        case .networkError:
+            return .networkError
+        default:
+            return .loginFailed(lineError.localizedDescription)
+        }
+    }
+    return .loginFailed(error.localizedDescription)
+}
+```
+description:
+globs:
+alwaysApply: false
+---

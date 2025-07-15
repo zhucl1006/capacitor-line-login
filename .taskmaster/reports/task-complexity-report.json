@@ -1,0 +1,133 @@
+{
+	"meta": {
+		"generatedAt": "2025-07-15T09:59:15.442Z",
+		"tasksAnalyzed": 15,
+		"totalTasks": 15,
+		"analysisCount": 15,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": false
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "设置项目仓库",
+			"complexityScore": 3,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "将'设置项目仓库'任务分解为：1. 创建 Git 仓库并初始化；2. 设置基础文件结构（src, test, docs）和 README 文件。",
+			"reasoning": "此任务相对简单，主要涉及 Git 操作和文件创建，但可以细分为创建仓库和设置结构两个步骤。"
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "定义 TypeScript 接口",
+			"complexityScore": 4,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'定义 TypeScript 接口'任务分解为：1. 定义 LineLoginPlugin 接口；2. 定义 LineLoginConfig, LoginOptions, LoginResult 接口；3. 定义 UserProfile 接口。",
+			"reasoning": "定义多个接口需要仔细考虑数据结构和类型约束，可以按接口功能分组细化。"
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "初始化 Capacitor 插件",
+			"complexityScore": 4,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "将'初始化 Capacitor 插件'任务分解为：1. 使用 Capacitor CLI 创建插件项目；2. 验证 Android 和 iOS 平台目录结构是否正确。",
+			"reasoning": "此任务依赖于 Capacitor CLI，需要确保插件的基本结构和平台支持被正确生成。"
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "实现插件初始化功能",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现插件初始化功能'任务分解为：1. 实现 initialize 方法接收 LineLoginConfig；2. 实现 Channel ID 的配置和验证；3. 实现参数的有效性检查和错误处理。",
+			"reasoning": "初始化功能需要处理配置和参数验证，涉及逻辑判断和错误处理，复杂度中等。"
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "实现用户登录功能",
+			"complexityScore": 8,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "将'实现用户登录功能'任务分解为：1. 实现原生登录逻辑；2. 实现 Web 登录逻辑；3. 处理 Line SDK 的登录调用；4. 解析并返回访问令牌和用户信息。",
+			"reasoning": "用户登录是核心功能，需要同时支持原生和 Web，并处理复杂的 SDK 调用和数据返回，复杂度较高。"
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "实现获取用户信息功能",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现获取用户信息功能'任务分解为：1. 实现 getUserProfile 方法调用 Line SDK；2. 解析用户 ID 和显示名称；3. 实现用户信息的缓存机制。",
+			"reasoning": "获取用户信息需要调用 SDK 并处理返回数据，同时考虑缓存，复杂度中等。"
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "实现登录状态管理功能",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现登录状态管理功能'任务分解为：1. 实现 isLoggedIn 方法检查登录状态；2. 实现访问令牌的有效性验证；3. 管理和更新登录状态。",
+			"reasoning": "状态管理需要检查当前状态和令牌有效性，涉及状态的维护。"
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "实现用户登出功能",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现用户登出功能'任务分解为：1. 实现 logout 方法清除本地令牌；2. 实现撤销服务器端授权；3. 更新插件的登录状态。",
+			"reasoning": "登出功能需要清除本地数据并可能需要与服务器交互，复杂度中等。"
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "实现令牌管理功能",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现令牌管理功能'任务分解为：1. 实现 refreshToken 方法处理令牌刷新；2. 实现令牌过期检测逻辑；3. 集成令牌刷新到登录流程。",
+			"reasoning": "令牌管理涉及刷新和过期处理，需要与登录流程集成，复杂度中等偏高。"
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "集成 Android SDK",
+			"complexityScore": 7,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'集成 Android SDK'任务分解为：1. 添加 Line SDK for Android 依赖；2. 实现 Activity 生命周期处理（如 onActivityResult）；3. 配置 AndroidManifest.xml 以支持 Line SDK。",
+			"reasoning": "集成原生 SDK 需要处理平台特定的配置和生命周期，复杂度较高。"
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "集成 iOS SDK",
+			"complexityScore": 7,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'集成 iOS SDK'任务分解为：1. 添加 Line SDK for iOS 依赖；2. 实现 URL Scheme 配置；3. 实现 Universal Links 配置。",
+			"reasoning": "集成 iOS SDK 需要处理 URL Scheme 和 Universal Links 等平台特定配置，复杂度较高。"
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "实现 Web 登录功能",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现 Web 登录功能'任务分解为：1. 实现 Line Login Web API 的调用；2. 处理 OAuth 2.0 授权流程；3. 处理跨域请求和回调。",
+			"reasoning": "Web 登录涉及调用 Web API 和处理 OAuth 流程，需要考虑跨域问题。"
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "编写文档",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'编写文档'任务分解为：1. 生成 API 文档；2. 编写平台特定配置指南（Android/iOS）；3. 编写使用示例和故障排除指南。",
+			"reasoning": "编写文档需要覆盖 API、平台配置和使用说明，工作量较大。"
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "实现自动化测试流程",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'实现自动化测试流程'任务分解为：1. 配置 CI/CD 工具（如 GitHub Actions）；2. 集成单元测试到 CI/CD；3. 集成集成测试到 CI/CD。",
+			"reasoning": "设置自动化测试流程需要配置 CI/CD 工具并集成不同类型的测试，复杂度中等偏高。"
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "发布准备",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "将'发布准备'任务分解为：1. 进行版本管理（语义化版本）；2. 构建并打包插件；3. 发布到 npm 和 GitHub Releases。",
+			"reasoning": "发布准备涉及版本控制、打包和发布到多个平台，需要细致操作。"
+		}
+	]
+}
