@@ -43,8 +43,40 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "定义 LineLoginPlugin 接口",
+            "description": "根据 PRD，定义 LineLoginPlugin 接口，包含插件的核心方法和属性。",
+            "dependencies": [],
+            "details": "在 src/types.ts 文件中定义 LineLoginPlugin 接口。\n<info added on 2025-07-15T10:10:14.659Z>\n已完成 src/types.ts 文件中 LineLoginPlugin 接口的定义，包含 initialize, login, getUserProfile, isLoggedIn, logout, refreshToken, echo 方法。所有方法均支持 Promise 异步操作，并带有详细的 JSDoc 注释和明确的类型定义。\n</info added on 2025-07-15T10:10:14.659Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "定义 LineLoginConfig, LoginOptions, LoginResult 接口",
+            "description": "根据 PRD，定义 LineLoginConfig、LoginOptions 和 LoginResult 接口，用于配置、登录选项和登录结果。",
+            "dependencies": [
+              1
+            ],
+            "details": "在 src/types.ts 文件中定义 LineLoginConfig、LoginOptions 和 LoginResult 接口。\n<info added on 2025-07-15T10:10:32.363Z>\n已完成工作：\n1. 定义 LineLoginConfig 接口，包含 channelId、universalLinkURL 和 debug 属性。\n2. 定义 LoginOptions 接口，包含 onlyWebLogin、botPrompt 和 scopes 属性。\n3. 定义 LoginResult 接口，包含 accessToken、expiresIn、refreshToken、scope、tokenType 和 userProfile 属性。\n4. 定义 TokenResult 接口，包含 accessToken、expiresIn、refreshToken 和 tokenType 属性。\n5. 定义 LineLoginError 接口，包含 code、message 和 details 属性。\n\n接口特性：\n- 所有接口均有详细的 JSDoc 注释。\n- 可选属性使用 `?` 标记。\n- 类型定义清晰明确，遵循 Line SDK 官方规范。\n</info added on 2025-07-15T10:10:32.363Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "定义 UserProfile 接口",
+            "description": "根据 PRD，定义 UserProfile 接口，用于表示用户个人资料信息。",
+            "dependencies": [
+              2
+            ],
+            "details": "在 src/types.ts 文件中定义 UserProfile 接口。\n<info added on 2025-07-15T10:10:51.569Z>\n已完成 UserProfile 接口的定义，包含 userId、displayName、pictureUrl、statusMessage 和 language 字段。该接口基于 Line SDK 官方 UserProfile 规范，并使用了可选属性处理可能不存在的字段。所有 TypeScript 接口定义现已全部完成。\n</info added on 2025-07-15T10:10:51.569Z>",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 3,
@@ -329,7 +361,7 @@
     ],
     "metadata": {
       "created": "2025-07-15T09:56:14.962Z",
-      "updated": "2025-07-15T10:08:23.769Z",
+      "updated": "2025-07-15T10:11:16.507Z",
       "description": "Tasks for master context"
     }
   }
