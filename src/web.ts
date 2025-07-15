@@ -84,18 +84,7 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
     sessionStorage.setItem('line_state', state);
 
     // 构建授权URL
-    const authUrl = new URL('https://access.line.me/oauth2/v2.1/authorize');
-    authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('client_id', this.config.channelId);
-    authUrl.searchParams.append('redirect_uri', this.config.redirectUri || '');
-    authUrl.searchParams.append('state', state);
-    authUrl.searchParams.append('scope', this.config.scope?.join(' ') || 'profile');
-    authUrl.searchParams.append('code_challenge', codeChallenge);
-    authUrl.searchParams.append('code_challenge_method', 'S256');
-
-    if (this.config.botPrompt) {
-      authUrl.searchParams.append('bot_prompt', this.config.botPrompt);
-    }
+    const authUrl = this.buildAuthUrl(state, codeChallenge);
 
     console.log('LineLoginWeb: redirecting to', authUrl.toString());
 
@@ -247,6 +236,27 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
     return Array.from(crypto.getRandomValues(new Uint8Array(length)))
       .map(b => chars[b % chars.length])
       .join('');
+  }
+
+  private buildAuthUrl(state: string, codeChallenge: string): URL {
+    if (!this.config) {
+      throw new Error('Plugin not initialized');
+    }
+    
+    const authUrl = new URL('https://access.line.me/oauth2/v2.1/authorize');
+    authUrl.searchParams.append('response_type', 'code');
+    authUrl.searchParams.append('client_id', this.config.channelId);
+    authUrl.searchParams.append('redirect_uri', this.config.redirectUri || '');
+    authUrl.searchParams.append('state', state);
+    authUrl.searchParams.append('scope', this.config.scope?.join(' ') || 'profile');
+    authUrl.searchParams.append('code_challenge', codeChallenge);
+    authUrl.searchParams.append('code_challenge_method', 'S256');
+
+    if (this.config.botPrompt) {
+      authUrl.searchParams.append('bot_prompt', this.config.botPrompt);
+    }
+
+    return authUrl;
   }
 
   async getUserProfile(): Promise<UserProfile> {
