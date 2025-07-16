@@ -19,7 +19,7 @@
 ### 1. 安装插件
 
 ```bash
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
@@ -123,7 +123,7 @@ Web 平台不需要额外的配置文件，但需要确保：
 
 ```typescript
 // src/test-line-login.ts
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 async function testLineLogin() {
   try {

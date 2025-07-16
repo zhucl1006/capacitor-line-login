@@ -55,7 +55,7 @@
 #### 2.1 基本初始化
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 基本配置
 await LineLogin.initialize({
@@ -282,7 +282,7 @@ async function handleLineLogin() {
 ```typescript
 // useLineLogin.ts
 import { useState, useEffect } from 'react';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 export function useLineLogin() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -353,7 +353,7 @@ export function useLineLogin() {
 ```typescript
 // lineLogin.composable.ts
 import { ref, onMounted } from 'vue';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 export function useLineLogin() {
     const isLoggedIn = ref(false);
@@ -424,7 +424,7 @@ export function useLineLogin() {
 // line-login.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 @Injectable({
   providedIn: 'root'
@@ -526,7 +526,7 @@ const validateState = (receivedState: string) => {
 ```typescript
 // 懒加载 Line Login
 const loadLineLogin = async () => {
-    const { LineLogin } = await import('capacitor-line-login');
+    const { LineLogin } = await import('aile-capacitor-line-login');
     return LineLogin;
 };
 ```

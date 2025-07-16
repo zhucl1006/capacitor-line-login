@@ -40,14 +40,14 @@
 ### 1. 安装插件
 
 ```bash
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
 ### 2. 导入插件
 
 ```typescript
-import { LineLogin, LineLoginHelpers } from 'capacitor-line-login';
+import { LineLogin, LineLoginHelpers } from 'aile-capacitor-line-login';
 ```
 
 ## 基础使用
@@ -166,7 +166,7 @@ async function logout() {
 ### 1. 平台检测
 
 ```typescript
-import { LineLoginHelpers } from 'capacitor-line-login';
+import { LineLoginHelpers } from 'aile-capacitor-line-login';
 
 // 检查当前平台
 const platform = LineLoginHelpers.getCurrentPlatform();

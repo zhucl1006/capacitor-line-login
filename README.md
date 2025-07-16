@@ -2,7 +2,7 @@
 
 一个功能完整的 Capacitor 插件，支持 Line Login 在 Android、iOS 和 Web 平台上的集成。
 
-[![npm version](https://badge.fury.io/js/capacitor-line-login.svg)](https://badge.fury.io/js/capacitor-line-login)
+[![npm version](https://badge.fury.io/js/aile-capacitor-line-login.svg)](https://badge.fury.io/js/aile-capacitor-line-login)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ 特性
@@ -18,7 +18,7 @@
 ## 📦 安装
 
 ```bash
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
@@ -27,7 +27,7 @@ npx cap sync
 ### 1. 初始化插件
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 基本配置
 await LineLogin.initialize({
@@ -330,7 +330,7 @@ Line Login 配置接口
 插件还提供了一些辅助函数：
 
 ```typescript
-import { LineLoginHelpers } from 'capacitor-line-login';
+import { LineLoginHelpers } from 'aile-capacitor-line-login';
 
 // 检查当前平台
 const platform = LineLoginHelpers.getCurrentPlatform(); // 'web' | 'ios' | 'android'

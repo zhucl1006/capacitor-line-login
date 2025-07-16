@@ -17,7 +17,7 @@
 ### 1. 安装插件
 
 ```bash
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
@@ -206,7 +206,7 @@ end
 ### 基础使用
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class AuthService {
   private initialized = false;
@@ -280,7 +280,7 @@ authService.login().then(result => {
 
 ```tsx
 import React, { useState, useEffect } from 'react';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 interface UserProfile {
   userId: string;
@@ -395,7 +395,7 @@ export default LineLoginComponent;
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 export default defineComponent({
   name: 'LineLoginComponent',

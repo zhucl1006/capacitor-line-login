@@ -15,7 +15,7 @@
 ### 1. 简单登录流程
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class LineLoginService {
   private isInitialized = false;
@@ -120,7 +120,7 @@ document.getElementById('logoutBtn')?.addEventListener('click', async () => {
 ### 2. 带状态管理的登录
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 interface LoginState {
   isLoggedIn: boolean;
@@ -317,7 +317,7 @@ function updateUI(state: LoginState) {
 
 ```typescript
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 创建 Context
 interface LineLoginContextType {
@@ -481,7 +481,7 @@ export default App;
 
 ```typescript
 import { createApp, ref, reactive, provide, inject } from 'vue';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 创建 composable
 export function useLineLogin() {
@@ -587,7 +587,7 @@ const LoginComponent = {
 ```typescript
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 interface LoginState {
   isLoggedIn: boolean;
@@ -752,7 +752,7 @@ export class LineLoginComponent implements OnInit, OnDestroy {
 ### 1. 令牌管理
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class TokenManager {
   private accessToken: string | null = null;
@@ -833,7 +833,7 @@ async function getUserMessages() {
 ### 2. 多环境配置
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 interface EnvironmentConfig {
   channelId: string;
@@ -910,7 +910,7 @@ envManager.initialize().then(() => {
 ### 3. 错误重试机制
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class RetryableLineLogin {
   private maxRetries = 3;
@@ -986,7 +986,7 @@ async function handleLogin() {
 ### 1. 全局错误处理器
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 interface ErrorHandler {
   (error: any): void;
@@ -1122,7 +1122,7 @@ async function handleLogin() {
 ### 2. 错误恢复策略
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class LineLoginRecovery {
   private recoveryStrategies: Record<string, () => Promise<any>> = {};
@@ -1228,7 +1228,7 @@ async function robustGetUserProfile() {
 ### Web 平台
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 class WebLineLogin {
   private popup: Window | null = null;
@@ -1328,7 +1328,7 @@ window.addEventListener('lineLoginError', (event: any) => {
 ### 移动端平台
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 import { Capacitor } from '@capacitor/core';
 
 class MobileLineLogin {
@@ -1456,10 +1456,10 @@ mobileLogin.initializeForMobile().then(() => {
 ### 单元测试
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // Mock LineLogin
-jest.mock('capacitor-line-login', () => ({
+jest.mock('aile-capacitor-line-login', () => ({
   LineLogin: {
     initialize: jest.fn(),
     login: jest.fn(),
@@ -1555,7 +1555,7 @@ describe('LineLoginService', () => {
 ### 集成测试
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 describe('Line Login Integration', () => {
   beforeAll(async () => {

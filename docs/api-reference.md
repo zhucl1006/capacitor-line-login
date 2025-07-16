@@ -29,7 +29,7 @@
 
 **示例**:
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 await LineLogin.initialize({
   channelId: 'YOUR_CHANNEL_ID',
@@ -403,7 +403,7 @@ interface LineLoginError extends Error {
 ### 错误处理示例
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 try {
   await LineLogin.initialize({

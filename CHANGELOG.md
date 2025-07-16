@@ -105,13 +105,13 @@ This is the initial release of the Capacitor Line Login Plugin. The plugin provi
 
 #### Getting Started:
 ```bash
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
 #### Quick Example:
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // Initialize
 await LineLogin.initialize({

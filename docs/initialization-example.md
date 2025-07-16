@@ -3,7 +3,7 @@
 ## 基本初始化
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 基本初始化
 await LineLogin.initialize({
@@ -14,7 +14,7 @@ await LineLogin.initialize({
 ## 完整配置初始化
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 完整配置初始化
 await LineLogin.initialize({
@@ -30,7 +30,7 @@ await LineLogin.initialize({
 ## 错误处理
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 try {
   await LineLogin.initialize({
@@ -98,7 +98,7 @@ await LineLogin.initialize({
 ## 完整使用流程
 
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 async function initializeLineLogin() {
   try {

@@ -1,4 +1,4 @@
-import { LineLogin, LineLoginHelpers } from 'capacitor-line-login';
+import { LineLogin, LineLoginHelpers } from 'aile-capacitor-line-login';
 
 // 全局状态管理
 let isInitialized = false;

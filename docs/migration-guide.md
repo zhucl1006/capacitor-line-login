@@ -20,7 +20,7 @@
 cordova plugin remove cordova-plugin-line-login
 
 # 安装 Capacitor Line Login 插件
-npm install capacitor-line-login
+npm install aile-capacitor-line-login
 npx cap sync
 ```
 
@@ -57,7 +57,7 @@ window.lineLogin.logout(function() {
 
 #### 新的 Capacitor API
 ```typescript
-import { LineLogin } from 'capacitor-line-login';
+import { LineLogin } from 'aile-capacitor-line-login';
 
 // 初始化
 await LineLogin.initialize({

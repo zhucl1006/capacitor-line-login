@@ -15,7 +15,7 @@
 
 ### 1. npm 安装失败
 
-**问题**: 运行 `npm install capacitor-line-login` 时出错
+**问题**: 运行 `npm install aile-capacitor-line-login` 时出错
 
 **可能原因**:
 - 网络连接问题
@@ -28,10 +28,10 @@
 npm cache clean --force
 
 # 使用 yarn 替代 npm
-yarn add capacitor-line-login
+yarn add aile-capacitor-line-login
 
 # 或者使用 npm 的备用源
-npm install capacitor-line-login --registry https://registry.npm.taobao.org
+npm install aile-capacitor-line-login --registry https://registry.npm.taobao.org
 ```
 
 ### 2. Capacitor 同步失败
