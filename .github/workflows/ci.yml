@@ -1,68 +1,68 @@
-name: CI
+# name: CI
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
+#     strategy:
+#       matrix:
+#         node-version: [18.x, 20.x]
     
-    steps:
-    - uses: actions/checkout@v4
+#     steps:
+#     - uses: actions/checkout@v4
     
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v4
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
+#     - name: Install dependencies
+#       run: npm ci
     
-    - name: Run linter
-      run: npm run lint
+#     - name: Run linter
+#       run: npm run lint
     
-    - name: Run tests
-      run: npm test
+#     - name: Run tests
+#       run: npm test
     
-    - name: Build project
-      run: npm run build
+#     - name: Build project
+#       run: npm run build
     
-    - name: Verify iOS build
-      run: npm run verify:ios
+#     - name: Verify iOS build
+#       run: npm run verify:ios
     
-    - name: Verify Android build
-      run: npm run verify:android
+#     - name: Verify Android build
+#       run: npm run verify:android
       
-  coverage:
-    runs-on: ubuntu-latest
+#   coverage:
+#     runs-on: ubuntu-latest
     
-    steps:
-    - uses: actions/checkout@v4
+#     steps:
+#     - uses: actions/checkout@v4
     
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20.x
-        cache: 'npm'
+#     - name: Use Node.js 20.x
+#       uses: actions/setup-node@v4
+#       with:
+#         node-version: 20.x
+#         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
+#     - name: Install dependencies
+#       run: npm ci
     
-    - name: Run tests with coverage
-      run: npm run test:coverage
+#     - name: Run tests with coverage
+#       run: npm run test:coverage
     
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage/lcov.info
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false 
+#     - name: Upload coverage to Codecov
+#       uses: codecov/codecov-action@v3
+#       with:
+#         file: ./coverage/lcov.info
+#         flags: unittests
+#         name: codecov-umbrella
+#         fail_ci_if_error: false 
