@@ -105,7 +105,7 @@ public class LineLoginPlugin extends Plugin {
                     if (result.getLineProfile().getPictureUrl() != null) {
                         profile.put("pictureUrl", result.getLineProfile().getPictureUrl().toString());
                     }
-                    loginResult.put("profile", profile);
+                    loginResult.put("userProfile", profile);
                 }
                 
                 call.resolve(loginResult);

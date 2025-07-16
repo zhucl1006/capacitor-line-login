@@ -50,7 +50,7 @@ import LineSDK
                         profileDict["pictureUrl"] = pictureURL.absoluteString
                     }
                     
-                    resultDict["profile"] = profileDict
+                    resultDict["userProfile"] = profileDict
                 }
                 
                 completion(true, resultDict, nil)
