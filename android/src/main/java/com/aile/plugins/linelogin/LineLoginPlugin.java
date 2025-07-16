@@ -2,6 +2,7 @@ package com.aile.plugins.linelogin;
 
 import android.content.Intent;
 import android.app.Activity;
+import androidx.activity.result.ActivityResult;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -73,8 +74,11 @@ public class LineLoginPlugin extends Plugin {
     }
 
     @ActivityCallback
-    private void handleLoginResult(PluginCall call, Intent data) {
-        if (data == null) {
+    private void handleLoginResult(PluginCall call, ActivityResult activityResult) {
+        Intent data = activityResult.getData();
+        int resultCode = activityResult.getResultCode();
+        
+        if (data == null || resultCode == Activity.RESULT_CANCELED) {
             call.reject("Login cancelled");
             return;
         }
