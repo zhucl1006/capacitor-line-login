@@ -14,9 +14,65 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   private currentUser: UserProfile | null = null;
   private accessToken: string | null = null;
   private isInitialized = false;
+  private readonly CONFIG_STORAGE_KEY = 'line_login_config';
+
+  constructor() {
+    super();
+    // 尝试从localStorage恢复配置
+    this.loadConfig();
+  }
+
+  private debugLog(...args: any[]): void {
+    if (this.config?.debug) {
+      console.log(...args);
+    }
+  }
+
+  private debugWarn(...args: any[]): void {
+    if (this.config?.debug) {
+      console.warn(...args);
+    }
+  }
+
+  private saveConfig(): void {
+    if (this.config) {
+      try {
+        localStorage.setItem(this.CONFIG_STORAGE_KEY, JSON.stringify(this.config));
+      } catch (error) {
+        this.debugWarn('Failed to save Line Login config to localStorage:', error);
+      }
+    }
+  }
+
+  private loadConfig(): void {
+    try {
+      const savedConfig = localStorage.getItem(this.CONFIG_STORAGE_KEY);
+      if (savedConfig) {
+        this.config = JSON.parse(savedConfig);
+        this.isInitialized = true;
+        this.debugLog('LineLoginWeb: config restored from localStorage');
+      }
+    } catch (error) {
+      // 这里不使用debugWarn，因为config可能还没加载，所以总是输出警告
+      console.warn('Failed to load Line Login config from localStorage:', error);
+      this.clearConfig();
+    }
+  }
+
+  private clearConfig(): void {
+    try {
+      localStorage.removeItem(this.CONFIG_STORAGE_KEY);
+    } catch (error) {
+      this.debugWarn('Failed to clear Line Login config from localStorage:', error);
+    }
+  }
 
   async initialize(options: LineLoginConfig): Promise<void> {
-    console.log('LineLoginWeb: initialize', options);
+    // 先临时设置debug，以便能输出初始化日志
+    const tempDebug = options.debug;
+    if (tempDebug) {
+      console.log('LineLoginWeb: initialize', options);
+    }
     
     // 验证必需参数
     if (!options) {
@@ -49,21 +105,31 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
       channelId: options.channelId.trim(),
       redirectUri: options.redirectUri || window.location.origin + '/line-callback',
       scope: options.scope || ['profile'],
-      botPrompt: options.botPrompt
+      botPrompt: options.botPrompt,
+      debug: options.debug || false
     };
     
     this.isInitialized = true;
     
-    console.log('LineLoginWeb: initialized successfully', {
+    // 保存配置到localStorage
+    this.saveConfig();
+    
+    this.debugLog('LineLoginWeb: initialized successfully', {
       channelId: this.config.channelId,
       scope: this.config.scope,
       hasRedirectUri: !!this.config.redirectUri,
-      hasBotPrompt: !!this.config.botPrompt
+      hasBotPrompt: !!this.config.botPrompt,
+      debug: this.config.debug
     });
   }
 
   async login(options?: LoginOptions): Promise<LoginResult> {
-    console.log('LineLoginWeb: login', options);
+    this.debugLog('LineLoginWeb: login', options);
+    
+    // 如果未初始化，尝试从localStorage恢复配置
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
     
     if (!this.isInitialized || !this.config) {
       throw new Error('Plugin not initialized. Call initialize() first.');
@@ -72,6 +138,10 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
     // 检查是否是回调处理
     if (window.location.search.includes('code=')) {
       return this.handleLoginCallback();
+    }
+
+    if (window.location.search.includes('error=')) {
+      throw new Error('Line login failed: ' + window.location.search);
     }
 
     // 生成PKCE参数
@@ -86,7 +156,7 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
     // 构建授权URL
     const authUrl = this.buildAuthUrl(state, codeChallenge);
 
-    console.log('LineLoginWeb: redirecting to', authUrl.toString());
+    this.debugLog('LineLoginWeb: redirecting to', authUrl.toString());
 
     // 执行重定向
     window.location.assign(authUrl.toString());
@@ -99,6 +169,15 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   }
 
   private async handleLoginCallback(): Promise<LoginResult> {
+    // 确保配置已加载
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
+    
+    if (!this.isInitialized || !this.config) {
+      throw new Error('Plugin not initialized. Configuration lost after redirect.');
+    }
+
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
     const state = params.get('state');
@@ -260,7 +339,12 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   }
 
   async getUserProfile(): Promise<UserProfile> {
-    console.log('LineLoginWeb: getUserProfile');
+    this.debugLog('LineLoginWeb: getUserProfile');
+    
+    // 如果未初始化，尝试从localStorage恢复配置
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
     
     if (!this.isInitialized || !this.config) {
       throw new Error('Plugin not initialized. Call initialize() first.');
@@ -274,7 +358,12 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   }
 
   async isLoggedIn(): Promise<{ isLoggedIn: boolean }> {
-    console.log('LineLoginWeb: isLoggedIn');
+    this.debugLog('LineLoginWeb: isLoggedIn');
+    
+    // 如果未初始化，尝试从localStorage恢复配置
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
     
     if (!this.isInitialized || !this.config) {
       throw new Error('Plugin not initialized. Call initialize() first.');
@@ -284,7 +373,12 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   }
 
   async logout(): Promise<void> {
-    console.log('LineLoginWeb: logout');
+    this.debugLog('LineLoginWeb: logout');
+    
+    // 如果未初始化，尝试从localStorage恢复配置
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
     
     if (!this.isInitialized || !this.config) {
       throw new Error('Plugin not initialized. Call initialize() first.');
@@ -298,12 +392,21 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
     sessionStorage.removeItem('line_code_verifier');
     sessionStorage.removeItem('line_state');
     
+    // 清理localStorage中的配置（可选，根据需求决定是否保留配置）
+    // this.clearConfig();
+    // this.isInitialized = false;
+    
     // 可选：重定向到Line登出URL
     // window.location.href = 'https://access.line.me/oauth2/v2.1/logout';
   }
 
   async refreshToken(): Promise<TokenResult> {
-    console.log('LineLoginWeb: refreshToken');
+    this.debugLog('LineLoginWeb: refreshToken');
+    
+    // 如果未初始化，尝试从localStorage恢复配置
+    if (!this.isInitialized) {
+      this.loadConfig();
+    }
     
     if (!this.isInitialized || !this.config) {
       throw new Error('Plugin not initialized. Call initialize() first.');
@@ -318,7 +421,7 @@ export class LineLoginWeb extends WebPlugin implements LineLoginPlugin {
   }
 
   async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('LineLoginWeb: echo', options);
+    this.debugLog('LineLoginWeb: echo', options);
     return options;
   }
 }
