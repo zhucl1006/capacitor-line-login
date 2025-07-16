@@ -3,14 +3,14 @@ import PackageDescription
 
 let package = Package(
     name: "CapacitorLineLogin",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v13)],
     products: [
         .library(
             name: "CapacitorLineLogin",
             targets: ["LineLoginPlugin"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "7.0.0"),
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "6.0.0"),
         .package(url: "https://github.com/line/line-sdk-ios-swift.git", from: "5.8.0")
     ],
     targets: [

@@ -718,7 +718,7 @@
               1,
               2
             ],
-            "details": "使用npm publish发布到npm仓库，同时通过GitHub Actions或CLI工具创建版本化Release，附加变更日志和构建产物\n<info added on 2025-07-15T14:12:16.348Z>\n由于原包名被占用，更新为scoped包名@zhucl1006/capacitor-line-login。\n成功发布到npm，包名：@zhucl1006/capacitor-line-login@1.1.0。\n已推送代码到GitHub主分支，并创建并推送v1.1.0标签到GitHub。\n发布包含所有必要文件：源代码、构建文件、文档、平台支持文件。\n包大小：25.5 kB，解压后156.4 kB。\n发布状态：成功发布，npm同步可能需要几分钟时间。\n</info added on 2025-07-15T14:12:16.348Z>",
+            "details": "使用npm publish发布到npm仓库，同时通过GitHub Actions或CLI工具创建版本化Release，附加变更日志和构建产物\n<info added on 2025-07-15T14:12:16.348Z>\n由于原包名被占用，更新为scoped包名@zhucl1006/capacitor-line-login。\n成功发布到npm，包名：@zhucl1006/capacitor-line-login@1.1.0。\n已推送代码到GitHub主分支，并创建并推送v1.1.0标签到GitHub。\n发布包含所有必要文件：源代码、构建文件、文档、平台支持文件。\n包大小：25.5 kB，解压后156.4 kB。\n发布状态：成功发布，npm同步可能需要几分钟时间。\n</info added on 2025-07-15T14:12:16.348Z>\n<info added on 2025-07-15T14:49:47.766Z>\n包名已更新为 aile-capacitor-line-login，版本已升级至 1.2.0。\n成功发布到 npm 仓库，包名为 aile-capacitor-line-login@1.2.0。\n已创建 Git 标签 v1.2.0 并推送到 GitHub。\n发布详情：\n包名：aile-capacitor-line-login\n版本：1.2.0\n包大小：25.5 kB\n解压后大小：156.4 kB\n文件数量：27个\n发布状态：成功发布到 npm 仓库。\n注意：由于 @aile 组织不存在，使用了不带组织前缀的包名 aile-capacitor-line-login。\n</info added on 2025-07-15T14:49:47.766Z>",
             "status": "done",
             "testStrategy": ""
           }

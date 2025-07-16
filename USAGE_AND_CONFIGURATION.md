@@ -23,9 +23,9 @@ npx cap sync
 
 ### 2. 依赖要求
 
-- **Capacitor**: 5.0+
+- **Capacitor**: 6.0+
 - **iOS**: 13.0+
-- **Android**: API Level 24+
+- **Android**: API Level 22+
 - **Web**: 现代浏览器，支持ES2015+
 
 ## 基础配置

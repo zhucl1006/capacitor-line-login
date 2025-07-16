@@ -523,7 +523,7 @@ window.addEventListener('beforeunload', async () => {
 
 | 版本 | Capacitor | Android | iOS | Web |
 |------|-----------|---------|-----|-----|
-| 1.0.0 | 4.0+ | API 21+ | 12.0+ | 现代浏览器 |
+| 1.3.0 | 6.0+ | API 22+ | 13.0+ | 现代浏览器 |
 
 ## 相关链接
 

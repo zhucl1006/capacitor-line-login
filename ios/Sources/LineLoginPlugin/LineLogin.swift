@@ -17,7 +17,7 @@ import LineSDK
     }
     
     @objc public func login(completion: @escaping (Bool, [String: Any]?, String?) -> Void) {
-        guard let channelId = channelId else {
+        guard channelId != nil else {
             completion(false, nil, "Channel ID not set")
             return
         }
@@ -25,8 +25,9 @@ import LineSDK
         // Set up login permissions
         let permissions: Set<LoginPermission> = [.profile]
         
-        // Perform login
-        LoginManager.shared.login(permissions: permissions, in: nil) { result in
+        // Perform login on main actor
+        Task { @MainActor in
+            LoginManager.shared.login(permissions: permissions, in: nil) { result in
             switch result {
             case .success(let loginResult):
                 var resultDict: [String: Any] = [
@@ -58,6 +59,7 @@ import LineSDK
                 completion(false, nil, error.localizedDescription)
             }
         }
+        }
     }
     
     @objc public func logout(completion: @escaping (Bool, String?) -> Void) {
@@ -72,11 +74,11 @@ import LineSDK
     }
     
     @objc public func isLoggedIn() -> Bool {
-        return LoginManager.shared.isLoggedIn
+        return AccessTokenStore.shared.current != nil
     }
     
     @objc public func getUserProfile(completion: @escaping (Bool, [String: Any]?, String?) -> Void) {
-        guard LoginManager.shared.isLoggedIn else {
+        guard AccessTokenStore.shared.current != nil else {
             completion(false, nil, "User not logged in")
             return
         }

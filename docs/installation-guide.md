@@ -5,13 +5,13 @@
 ## 系统要求
 
 ### 最低版本要求
-- **Node.js**: 16.0.0 或更高版本
-- **Capacitor**: 4.0.0 或更高版本
+- **Node.js**: 18.0.0 或更高版本
+- **Capacitor**: 6.0.0 或更高版本
 - **TypeScript**: 4.0.0 或更高版本
 
 ### 平台要求
-- **Android**: API Level 21 (Android 5.0) 或更高
-- **iOS**: iOS 12.0 或更高
+- **Android**: API Level 22 (Android 5.1) 或更高
+- **iOS**: iOS 13.0 或更高
 - **Web**: 现代浏览器（Chrome 88+, Firefox 78+, Safari 14+）
 
 ## 安装步骤
