@@ -82,4 +82,30 @@ public class LineLoginPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
     }
+
+    public override func load() {
+        super.load()
+        
+        // Register for URL handling notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleOpenURL(_:)),
+            name: .capacitorOpenURL,
+            object: nil
+        )
+    }
+
+    @objc private func handleOpenURL(_ notification: Notification) {
+        guard let object = notification.object as? [String: Any],
+              let url = object["url"] as? URL else {
+            return
+        }
+        
+        // Handle Line SDK URL
+        _ = LoginManager.shared.application(.shared, open: url)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }

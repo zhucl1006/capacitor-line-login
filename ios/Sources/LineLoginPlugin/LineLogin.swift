@@ -25,40 +25,55 @@ import LineSDK
         // Set up login permissions
         let permissions: Set<LoginPermission> = [.profile]
         
-        // Perform login on main actor
-        Task { @MainActor in
-            LoginManager.shared.login(permissions: permissions, in: nil) { result in
-            switch result {
-            case .success(let loginResult):
-                var resultDict: [String: Any] = [
-                    "success": true,
-                    "accessToken": loginResult.accessToken.value
-                ]
-                
-                // Add user profile if available
-                if let profile = loginResult.userProfile {
-                    var profileDict: [String: Any] = [
-                        "userId": profile.userID,
-                        "displayName": profile.displayName
-                    ]
-                    
-                    if let statusMessage = profile.statusMessage {
-                        profileDict["statusMessage"] = statusMessage
-                    }
-                    
-                    if let pictureURL = profile.pictureURL {
-                        profileDict["pictureUrl"] = pictureURL.absoluteString
-                    }
-                    
-                    resultDict["userProfile"] = profileDict
-                }
-                
-                completion(true, resultDict, nil)
-                
-            case .failure(let error):
-                completion(false, nil, error.localizedDescription)
+        // Get the root view controller properly
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let rootViewController = window.rootViewController else {
+                completion(false, nil, "Unable to get root view controller")
+                return
             }
-        }
+            
+            // Find the top-most view controller
+            var topViewController = rootViewController
+            while let presentedViewController = topViewController.presentedViewController {
+                topViewController = presentedViewController
+            }
+            
+            LoginManager.shared.login(permissions: permissions, in: topViewController) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let loginResult):
+                        var resultDict: [String: Any] = [
+                            "success": true,
+                            "accessToken": loginResult.accessToken.value
+                        ]
+                        
+                        // Add user profile if available
+                        if let profile = loginResult.userProfile {
+                            var profileDict: [String: Any] = [
+                                "userId": profile.userID,
+                                "displayName": profile.displayName
+                            ]
+                            
+                            if let statusMessage = profile.statusMessage {
+                                profileDict["statusMessage"] = statusMessage
+                            }
+                            
+                            if let pictureURL = profile.pictureURL {
+                                profileDict["pictureUrl"] = pictureURL.absoluteString
+                            }
+                            
+                            resultDict["userProfile"] = profileDict
+                        }
+                        
+                        completion(true, resultDict, nil)
+                        
+                    case .failure(let error):
+                        completion(false, nil, error.localizedDescription)
+                    }
+                }
+            }
         }
     }
     

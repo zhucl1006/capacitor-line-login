@@ -1,6 +1,6 @@
 {
   "name": "aile-capacitor-line-login",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "Capacitor plugin for Line Login integration with support for Android, iOS, and Web platforms",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -13,7 +13,7 @@
     "ios/Sources",
     "ios/Tests",
     "Package.swift",
-    "CapacitorLineLogin.podspec"
+    "AileCapacitorLineLogin.podspec"
   ],
   "author": "zhucl",
   "license": "MIT",
@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
-    "verify:ios": "xcodebuild -scheme CapacitorLineLogin -destination generic/platform=iOS",
+    "verify:ios": "xcodebuild -scheme AileCapacitorLineLogin -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
     "test": "jest",
