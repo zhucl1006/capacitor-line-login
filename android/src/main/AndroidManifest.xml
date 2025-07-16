@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     
     <!-- Required permissions for Line SDK -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,11 +10,12 @@
             android:name="com.linecorp.linesdk.ChannelId"
             android:value="@string/line_channel_id" />
         
-        <!-- Line SDK Authentication Activity -->
+        <!-- Line SDK Authentication Activity with conflict resolution -->
         <activity
             android:name="com.linecorp.linesdk.auth.internal.LineAuthenticationActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:exported,android:theme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
